@@ -6,15 +6,12 @@ import Layout from "../layouts/Layout.astro";
   <nav class="bg-blue-600 text-white p-4 mb-6">
     <div class="container mx-auto flex justify-between items-center">
       <h1 class="text-xl font-bold">Penguins Data Visualization</h1>
-      <div class="space-x-4">
+      <div class="flex items-center space-x-4">
         <a href="/" class="hover:underline">Accueil</a>
-        <a href="/species/Adelie" class="hover:underline">Adelie</a>
-        <a href="/species/Gentoo" class="hover:underline">Gentoo</a>
-        <a href="/species/Chinstrap" class="hover:underline">Chinstrap</a>
-        <a href="/test-inframe" class="font-bold underline">Test Iframe</a>
-        <a href="/single-page-anchors" class="hover:underline"
-          >Page avec ancres</a
-        >
+        <a href="/species/Adelie/" class="hover:underline">Pages individuelles</a>
+        <a href="/test-inframe/" class="font-bold underline">Test Iframe</a>
+        <a href="/single-page-anchors/" class="hover:underline">Page avec ancres</a>
+        <a href="/single-page-tabs/" class="hover:underline">Page avec onglets</a>
       </div>
     </div>
   </nav>
@@ -23,38 +20,29 @@ import Layout from "../layouts/Layout.astro";
     <h1 class="text-3xl font-bold mb-6 text-center">Navigation par Iframe</h1>
 
     <div class="mb-6">
-      <div class="flex justify-center space-x-4 bg-gray-100 p-4 rounded-lg">
-        <a
-          href="/species/Adelie"
-          target="species-iframe"
-          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+      <div class="flex justify-center items-center space-x-4 bg-gray-100 p-4 rounded-lg">
+        <label for="iframe-species-select" class="font-medium text-gray-700">
+          Choisir une espèce:
+        </label>
+        <select 
+          id="iframe-species-select" 
+          class="bg-white text-black px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-          Adelie
-        </a>
-        <a
-          href="/species/Gentoo"
-          target="species-iframe"
-          class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-        >
-          Gentoo
-        </a>
-        <a
-          href="/species/Chinstrap"
-          target="species-iframe"
-          class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600"
-        >
-          Chinstrap
-        </a>
+          <option value="Adelie">Adelie</option>
+          <option value="Gentoo">Gentoo</option>
+          <option value="Chinstrap">Chinstrap</option>
+        </select>
       </div>
     </div>
 
     <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
       <iframe
         name="species-iframe"
-        src="/species/Adelie"
+        src="/species/Adelie/"
         class="w-full min-h-screen"
         id="species-frame"
         onload="resizeIframe(this)"
+        title="Visualisation des données d'espèces de penguins"
       >
       </iframe>
     </div>
@@ -90,6 +78,20 @@ import Layout from "../layouts/Layout.astro";
         iframe.style.height = "800px";
       }
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const iframeSelect = document.querySelector("#iframe-species-select");
+      const iframe = document.getElementById("species-frame");
+      
+      iframeSelect?.addEventListener("change", (evt) => {
+        const value = (evt.target as HTMLSelectElement).value;
+        const newSrc = `/species/${value}/`;
+        
+        if (iframe) {
+          iframe.src = newSrc;
+        }
+      });
+    });
 
     // Redimensionner quand la fenêtre change de taille
     window.addEventListener("resize", () => {
