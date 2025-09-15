@@ -1,184 +1,80 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import GraphicSpecies from "../components/GraphicSpecies.astro";
+
+const { species } = Astro.params;
+const validSpecies = ['Adelie', 'Gentoo', 'Chinstrap'];
+const currentSpecies = validSpecies.includes(species) ? species : 'Adelie';
 ---
 
 <Layout>
   <nav class="bg-blue-600 text-white p-4 mb-6">
     <div class="container mx-auto flex justify-between items-center">
       <h1 class="text-xl font-bold">Penguins Data Visualization</h1>
-      <div class="space-x-4">
+      <div class="flex items-center space-x-4">
         <a href="/" class="hover:underline">Accueil</a>
-        <a href="/species/Adelie" class="hover:underline">Adelie</a>
-        <a href="/species/Gentoo" class="hover:underline">Gentoo</a>
-        <a href="/species/Chinstrap" class="hover:underline">Chinstrap</a>
-        <a href="/test-inframe" class="hover:underline">Test Iframe</a>
-        <a href="/single-page-anchors" class="font-bold underline"
-          >Page avec ancres</a
-        >
+        
+        <!-- Select pour la navigation entre espèces -->
+        
+        
+        <a href="/test-inframe/" class="hover:underline">Test Iframe</a>
+        <a href="/single-page-anchors/" class="hover:underline">Page avec ancres</a>
+        <a href="/single-page-tabs/" class="hover:underline">Page avec onglets</a>
       </div>
     </div>
   </nav>
 
+  <div class="flex items-center space-x-2">
+          <label for="species-select" class="text-sm">Espèce:</label>
+          <select 
+            id="species-select" 
+            class="bg-white text-black px-3 py-1 rounded border"
+          >
+            <option value="Adelie" selected={currentSpecies === 'Adelie'}>Adelie</option>
+            <option value="Gentoo" selected={currentSpecies === 'Gentoo'}>Gentoo</option>
+            <option value="Chinstrap" selected={currentSpecies === 'Chinstrap'}>Chinstrap</option>
+          </select>
+        </div>
+
   <main class="container mx-auto px-4">
-    <h1 class="text-3xl font-bold mb-6 text-center">
-      Toutes les espèces - Navigation par ancres
-    </h1>
+    <GraphicSpecies species={currentSpecies} />
 
-    <!-- Menu d'ancres -->
-    <div class="mb-8">
-      <div
-        class="flex justify-center space-x-4 bg-gray-100 p-4 rounded-lg sticky top-4 z-10"
-      >
-        <a
-          href="#adelie"
-          class="anchor-link bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-        >
-          Adelie
-        </a>
-        <a
-          href="#gentoo"
-          class="anchor-link bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-        >
-          Gentoo
-        </a>
-        <a
-          href="#chinstrap"
-          class="anchor-link bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600"
-        >
-          Chinstrap
-        </a>
-      </div>
-    </div>
-
-    <!-- Container du slider -->
-    <div class="slider-container">
-      <div class="slider-wrapper" id="slider">
-        <!-- Section Adelie -->
-        <section class="slide" id="adelie">
-          <GraphicSpecies species="Adelie" />
-          <div class="text-center mt-4 mb-8">
-            <p class="text-gray-600">
-              Les penguins Adelie sont les plus petits des trois espèces
-              étudiées.
-            </p>
-          </div>
-        </section>
-
-        <!-- Section Gentoo -->
-        <section class="slide" id="gentoo">
-          <GraphicSpecies species="Gentoo" />
-          <div class="text-center mt-4 mb-8">
-            <p class="text-gray-600">
-              Les penguins Gentoo sont les plus grands des trois espèces
-              étudiées.
-            </p>
-          </div>
-        </section>
-
-        <!-- Section Chinstrap -->
-        <section class="slide" id="chinstrap">
-          <GraphicSpecies species="Chinstrap" />
-          <div class="text-center mt-4 mb-8">
-            <p class="text-gray-600">
-              Les penguins Chinstrap sont reconnaissables à leur ligne mentale
-              caractéristique.
-            </p>
-          </div>
-        </section>
-      </div>
+    <div class="mt-8 text-center">
+      {currentSpecies === 'Adelie' && (
+        <p class="text-gray-600">
+          Les penguins Adelie sont les plus petits des trois espèces étudiées. Ils
+          se trouvent sur les trois îles : Torgersen, Biscoe et Dream.
+        </p>
+      )}
+      {currentSpecies === 'Gentoo' && (
+        <p class="text-gray-600">
+          Les penguins Gentoo sont les plus grands des trois espèces étudiées. Ils
+          se trouvent uniquement sur l'île de Biscoe et sont reconnaissables à 
+          leur bec orange.
+        </p>
+      )}
+      {currentSpecies === 'Chinstrap' && (
+        <p class="text-gray-600">
+          Les penguins Chinstrap sont reconnaissables à la ligne noire qui passe
+          sous leur menton, d'où leur nom. Ils se trouvent uniquement sur l'île de
+          Dream.
+        </p>
+      )}
     </div>
   </main>
 
-  <style>
-    .slider-container {
-      overflow-x: hidden;
-      width: 100%;
-      position: relative;
-    }
-
-    .slider-wrapper {
-      display: flex;
-      width: 300%; /* 3 slides × 100% */
-      transition: transform 0.5s ease-in-out;
-    }
-
-    .slide {
-      width: 33.333%; /* 100% / 3 slides */
-      flex-shrink: 0;
-      padding: 0 20px;
-      box-sizing: border-box;
-    }
-
-    /* Smooth scrolling pour les ancres */
-    html {
-      scroll-behavior: smooth;
-    }
-
-    .anchor-link {
-      transition: all 0.3s ease;
-    }
-
-    .anchor-link:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Indicateur actif */
-    .anchor-link.active {
-      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
-    }
-  </style>
-
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const slider = document.getElementById("slider");
-      const anchorLinks = document.querySelectorAll(".anchor-link");
-
-      // Fonction pour déplacer le slider
-      function moveSlider(index) {
-        const translateX = -(index * 33.333); // -33.333% par slide
-        slider.style.transform = `translateX(${translateX}%)`;
-
-        // Mettre à jour les liens actifs
-        anchorLinks.forEach((link, i) => {
-          link.classList.toggle("active", i === index);
-        });
-      }
-
-      // Ajouter les event listeners aux liens
-      anchorLinks.forEach((link, index) => {
-        link.addEventListener("click", function (e) {
-          e.preventDefault();
-          moveSlider(index);
-
-          // Faire défiler vers le haut du container si nécessaire
-          document.querySelector(".slider-container").scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
-        });
+    document.addEventListener('DOMContentLoaded', function() {
+      const speciesSelect = document.querySelector("#species-select");
+      
+      speciesSelect?.addEventListener("change", (evt) => {
+        const value = (evt.target as HTMLSelectElement).value;
+        const segments = location.pathname.split("/");
+        
+        // Assurer que l'URL se termine par /
+        const newPath = `/species/${value}/`;
+        window.location.href = newPath;
       });
-
-      // Initialiser le premier slide comme actif
-      if (anchorLinks.length > 0) {
-        anchorLinks[0].classList.add("active");
-      }
-
-      // Observer les changements de hash dans l'URL
-      function handleHashChange() {
-        const hash = window.location.hash.substring(1);
-        const index = ["adelie", "gentoo", "chinstrap"].indexOf(hash);
-        if (index !== -1) {
-          moveSlider(index);
-        }
-      }
-
-      // Écouter les changements de hash
-      window.addEventListener("hashchange", handleHashChange);
-
-      // Gérer le hash initial
-      handleHashChange();
     });
   </script>
 </Layout>
