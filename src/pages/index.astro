@@ -3,6 +3,10 @@ import PlotFigure from "../components/PlotFigure.astro";
 import Layout from "../layouts/Layout.astro";
 import * as Plot from "@observablehq/plot";
 import penguins from "../assets/penguins.json";
+
+const { species } = Astro.params;
+const validSpecies = ['Adelie', 'Gentoo', 'Chinstrap'];
+const currentSpecies = validSpecies.includes(species) ? species : 'Adelie';
 ---
 
 <Layout>
@@ -48,27 +52,33 @@ import penguins from "../assets/penguins.json";
         <p class="text-gray-600 mb-4">
           Navigation classique avec une page dédiée à chaque espèce de pingouin.
         </p>
-        <div class="space-y-2">
-          <a
-            href="/species/Adelie"
-            class="block bg-blue-500 text-white px-4 py-2 rounded text-center hover:bg-blue-600"
+        <div class="flex items-center space-x-2">
+          <label for="species-select" class="text-sm">Espèce:</label>
+          <select 
+            id="species-select" 
+            class="bg-white text-black px-3 py-1 rounded border"
           >
-            Adelie
-          </a>
-          <a
-            href="/species/Gentoo"
-            class="block bg-green-500 text-white px-4 py-2 rounded text-center hover:bg-green-600"
-          >
-            Gentoo
-          </a>
-          <a
-            href="/species/Chinstrap"
-            class="block bg-purple-500 text-white px-4 py-2 rounded text-center hover:bg-purple-600"
-          >
-            Chinstrap
-          </a>
+            <option value="Adelie" selected={currentSpecies === 'Adelie'}>Adelie</option>
+            <option value="Gentoo" selected={currentSpecies === 'Gentoo'}>Gentoo</option>
+            <option value="Chinstrap" selected={currentSpecies === 'Chinstrap'}>Chinstrap</option>
+          </select>
         </div>
       </div>
+
+      <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const speciesSelect = document.querySelector("#species-select");
+      
+      speciesSelect?.addEventListener("change", (evt) => {
+        const value = (evt.target as HTMLSelectElement).value;
+        const segments = location.pathname.split("/");
+        
+        // Assurer que l'URL se termine par /
+        const newPath = `/species/${value}/`;
+        window.location.href = newPath;
+      });
+    });
+  </script>
 
       <!-- Card 2: IFrame -->
       <div
