@@ -1,0 +1,102 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+  <nav class="bg-blue-600 text-white p-4 mb-6">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-xl font-bold">Penguins Data Visualization</h1>
+      <div class="space-x-4">
+        <a href="/" class="hover:underline">Accueil</a>
+        <a href="/species/Adelie" class="hover:underline">Adelie</a>
+        <a href="/species/Gentoo" class="hover:underline">Gentoo</a>
+        <a href="/species/Chinstrap" class="hover:underline">Chinstrap</a>
+        <a href="/test-inframe" class="font-bold underline">Test Iframe</a>
+        <a href="/single-page-anchors" class="hover:underline"
+          >Page avec ancres</a
+        >
+      </div>
+    </div>
+  </nav>
+
+  <main class="container mx-auto px-4">
+    <h1 class="text-3xl font-bold mb-6 text-center">Navigation par Iframe</h1>
+
+    <div class="mb-6">
+      <div class="flex justify-center space-x-4 bg-gray-100 p-4 rounded-lg">
+        <a
+          href="/species/Adelie"
+          target="species-iframe"
+          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+          Adelie
+        </a>
+        <a
+          href="/species/Gentoo"
+          target="species-iframe"
+          class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+        >
+          Gentoo
+        </a>
+        <a
+          href="/species/Chinstrap"
+          target="species-iframe"
+          class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600"
+        >
+          Chinstrap
+        </a>
+      </div>
+    </div>
+
+    <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
+      <iframe
+        name="species-iframe"
+        src="/species/Adelie"
+        class="w-full min-h-screen"
+        id="species-frame"
+        onload="resizeIframe(this)"
+      >
+      </iframe>
+    </div>
+  </main>
+
+  <script>
+    function resizeIframe(iframe) {
+      try {
+        // Attendre que le contenu soit chargé
+        setTimeout(() => {
+          if (iframe.contentDocument) {
+            const body = iframe.contentDocument.body;
+            const html = iframe.contentDocument.documentElement;
+
+            // Calculer la hauteur nécessaire
+            const height = Math.max(
+              body.scrollHeight,
+              body.offsetHeight,
+              html.clientHeight,
+              html.scrollHeight,
+              html.offsetHeight,
+            );
+
+            // Appliquer la hauteur avec une marge
+            iframe.style.height = height + 50 + "px";
+          } else {
+            // Fallback si on ne peut pas accéder au contenu
+            iframe.style.height = "800px";
+          }
+        }, 100);
+      } catch (error) {
+        // En cas d'erreur, utiliser une hauteur par défaut
+        iframe.style.height = "800px";
+      }
+    }
+
+    // Redimensionner quand la fenêtre change de taille
+    window.addEventListener("resize", () => {
+      const iframe = document.getElementById("species-frame");
+      if (iframe) {
+        resizeIframe(iframe);
+      }
+    });
+  </script>
+</Layout>

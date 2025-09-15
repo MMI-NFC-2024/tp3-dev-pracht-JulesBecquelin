@@ -1,0 +1,34 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import GraphicSpecies from "../../components/GraphicSpecies.astro";
+---
+
+<Layout>
+  <nav class="bg-blue-600 text-white p-4 mb-6">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-xl font-bold">Penguins Data Visualization</h1>
+      <div class="space-x-4">
+        <a href="/" class="hover:underline">Accueil</a>
+        <a href="/species/Adelie" class="hover:underline">Adelie</a>
+        <a href="/species/Gentoo" class="font-bold underline">Gentoo</a>
+        <a href="/species/Chinstrap" class="hover:underline">Chinstrap</a>
+        <a href="/test-inframe" class="hover:underline">Test Iframe</a>
+        <a href="/single-page-anchors" class="hover:underline"
+          >Page avec ancres</a
+        >
+      </div>
+    </div>
+  </nav>
+
+  <main class="container mx-auto px-4">
+    <GraphicSpecies species="Gentoo" />
+
+    <div class="mt-8 text-center">
+      <p class="text-gray-600">
+        Les penguins Gentoo sont les plus grands des trois espèces étudiées. Ils
+        se trouvent uniquement sur l'île de Biscoe et sont reconnaissables à
+        leur bec orange.
+      </p>
+    </div>
+  </main>
+</Layout>
