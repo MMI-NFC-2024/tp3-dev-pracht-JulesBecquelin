@@ -1,0 +1,309 @@
+---
+import Layout from "../layouts/Layout.astro";
+import GraphicSpecies from "../components/GraphicSpecies.astro";
+---
+
+<Layout>
+  <nav class="bg-blue-600 text-white p-4 mb-6">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-xl font-bold">Penguins Data Visualization</h1>
+      <div class="flex items-center space-x-4">
+        <a href="/" class="hover:underline">Accueil</a>
+        <a href="/species/Adelie/" class="hover:underline">Pages individuelles</a>
+        <a href="/test-inframe/" class="hover:underline">Test Iframe</a>
+        <a href="/single-page-anchors/" class="hover:underline">Page avec ancres</a>
+        <a href="/single-page-tabs/" class="font-bold underline">Page avec onglets</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container mx-auto px-4">
+    <h1 class="text-3xl font-bold mb-8 text-center">
+      Toutes les espèces - Navigation par onglets accessibles
+    </h1>
+
+    <!-- Système d'onglets accessible -->
+    <div class="tabs-container">
+      <!-- Liste des onglets -->
+      <div class="tabs-list" role="tablist" aria-label="Espèces de penguins">
+        <button
+          class="tab tab-adelie active"
+          role="tab"
+          aria-selected="true"
+          aria-controls="panel-adelie"
+          id="tab-adelie"
+        >
+          <span class="tab-icon">🐧</span>
+          Adelie
+        </button>
+        <button
+          class="tab tab-gentoo"
+          role="tab"
+          aria-selected="false"
+          aria-controls="panel-gentoo"
+          id="tab-gentoo"
+        >
+          <span class="tab-icon">🐧</span>
+          Gentoo
+        </button>
+        <button
+          class="tab tab-chinstrap"
+          role="tab"
+          aria-selected="false"
+          aria-controls="panel-chinstrap"
+          id="tab-chinstrap"
+        >
+          <span class="tab-icon">🐧</span>
+          Chinstrap
+        </button>
+      </div>
+
+      <!-- Panneaux de contenu -->
+      <div class="tab-panels">
+        <!-- Panneau Adelie -->
+        <div
+          class="tab-panel active"
+          role="tabpanel"
+          id="panel-adelie"
+          aria-labelledby="tab-adelie"
+        >
+          <GraphicSpecies species="Adelie" />
+          <div class="text-center mt-6 p-4 bg-blue-50 rounded-lg">
+            <h3 class="text-xl font-semibold text-blue-800 mb-2">Adelie Penguins</h3>
+            <p class="text-gray-700">
+              Les penguins Adelie sont les plus petits des trois espèces étudiées. 
+              Ils se trouvent sur les trois îles : Torgersen, Biscoe et Dream.
+            </p>
+          </div>
+        </div>
+
+        <!-- Panneau Gentoo -->
+        <div
+          class="tab-panel"
+          role="tabpanel"
+          id="panel-gentoo"
+          aria-labelledby="tab-gentoo"
+          hidden
+        >
+          <GraphicSpecies species="Gentoo" />
+          <div class="text-center mt-6 p-4 bg-green-50 rounded-lg">
+            <h3 class="text-xl font-semibold text-green-800 mb-2">Gentoo Penguins</h3>
+            <p class="text-gray-700">
+              Les penguins Gentoo sont les plus grands des trois espèces étudiées. 
+              Ils se trouvent uniquement sur l'île de Biscoe et sont reconnaissables 
+              à leur bec orange.
+            </p>
+          </div>
+        </div>
+
+        <!-- Panneau Chinstrap -->
+        <div
+          class="tab-panel"
+          role="tabpanel"
+          id="panel-chinstrap"
+          aria-labelledby="tab-chinstrap"
+          hidden
+        >
+          <GraphicSpecies species="Chinstrap" />
+          <div class="text-center mt-6 p-4 bg-purple-50 rounded-lg">
+            <h3 class="text-xl font-semibold text-purple-800 mb-2">Chinstrap Penguins</h3>
+            <p class="text-gray-700">
+              Les penguins Chinstrap sont reconnaissables à la ligne noire qui passe
+              sous leur menton, d'où leur nom. Ils se trouvent uniquement sur l'île de Dream.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <style>
+    .tabs-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .tabs-list {
+      display: flex;
+      border-bottom: 2px solid #e5e7eb;
+      margin-bottom: 2rem;
+      background-color: #f8fafc;
+      border-radius: 8px 8px 0 0;
+      overflow: hidden;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 1rem 1.5rem;
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #6b7280;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      border-bottom: 3px solid transparent;
+    }
+
+    .tab:hover {
+      background-color: #e5e7eb;
+      color: #374151;
+    }
+
+    .tab:focus {
+      outline: none;
+      box-shadow: inset 0 0 0 2px #3b82f6;
+    }
+
+    .tab.active {
+      color: #1f2937;
+      background-color: white;
+      border-bottom-color: #3b82f6;
+      font-weight: 600;
+    }
+
+    .tab-adelie.active {
+      border-bottom-color: #3b82f6;
+      color: #1e40af;
+    }
+
+    .tab-gentoo.active {
+      border-bottom-color: #059669;
+      color: #047857;
+    }
+
+    .tab-chinstrap.active {
+      border-bottom-color: #7c3aed;
+      color: #6d28d9;
+    }
+
+    .tab-icon {
+      font-size: 1.2rem;
+    }
+
+    .tab-panels {
+      min-height: 600px;
+    }
+
+    .tab-panel {
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .tab-panel[hidden] {
+      display: none;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .tab {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .tab-icon {
+        font-size: 1rem;
+      }
+    }
+  </style>
+
+  <script>
+    class AccessibleTabs {
+      constructor(container) {
+        this.container = container;
+        this.tabs = container.querySelectorAll('[role="tab"]');
+        this.panels = container.querySelectorAll('[role="tabpanel"]');
+        
+        this.init();
+      }
+
+      init() {
+        // Ajouter les event listeners
+        this.tabs.forEach((tab, index) => {
+          tab.addEventListener('click', (e) => this.selectTab(e.target));
+          tab.addEventListener('keydown', (e) => this.handleKeyDown(e, index));
+        });
+      }
+
+      selectTab(selectedTab) {
+        const targetPanelId = selectedTab.getAttribute('aria-controls');
+
+        // Désactiver tous les onglets
+        this.tabs.forEach(tab => {
+          tab.setAttribute('aria-selected', 'false');
+          tab.classList.remove('active');
+        });
+
+        // Cacher tous les panneaux
+        this.panels.forEach(panel => {
+          panel.hidden = true;
+          panel.classList.remove('active');
+        });
+
+        // Activer l'onglet sélectionné
+        selectedTab.setAttribute('aria-selected', 'true');
+        selectedTab.classList.add('active');
+
+        // Afficher le panneau correspondant
+        const targetPanel = document.getElementById(targetPanelId);
+        if (targetPanel) {
+          targetPanel.hidden = false;
+          targetPanel.classList.add('active');
+        }
+      }
+
+      handleKeyDown(event, currentIndex) {
+        let targetIndex;
+
+        switch (event.key) {
+          case 'ArrowLeft':
+            event.preventDefault();
+            targetIndex = currentIndex === 0 ? this.tabs.length - 1 : currentIndex - 1;
+            break;
+          case 'ArrowRight':
+            event.preventDefault();
+            targetIndex = currentIndex === this.tabs.length - 1 ? 0 : currentIndex + 1;
+            break;
+          case 'Home':
+            event.preventDefault();
+            targetIndex = 0;
+            break;
+          case 'End':
+            event.preventDefault();
+            targetIndex = this.tabs.length - 1;
+            break;
+          default:
+            return;
+        }
+
+        // Déplacer le focus et sélectionner l'onglet
+        this.tabs[targetIndex].focus();
+        this.selectTab(this.tabs[targetIndex]);
+      }
+    }
+
+    // Initialiser les onglets quand le DOM est prêt
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabsContainer = document.querySelector('.tabs-container');
+      if (tabsContainer) {
+        new AccessibleTabs(tabsContainer);
+      }
+    });
+  </script>
+</Layout>
